@@ -5,6 +5,8 @@ develop environment of native object for [bbb-max](https://github.com/2bbb/bbb-m
 ## Required env.
 
 * Recently Mac
+  * if you use Mac after 10.12, you need to download 10.11SDK (included QuickTime framework).
+    * see [this article](https://forum.openframeworks.cc/t/quicktime-quicktime-h-file-not-found/24494).
 * Recently Xcode
 * Recently Max
 
