@@ -1,0 +1,6 @@
+[submodule "libs/maxcpp"]
+	path = libs/maxcpp
+	url = https://github.com/2bbb/maxcpp.git
+[submodule "libs/max-sdk"]
+	path = libs/max-sdk
+	url = https://github.com/Cycling74/max-sdk.git
