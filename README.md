@@ -1,5 +1,7 @@
 # bbb.max.dev
 
+develop environment of native object for [bbb-max](https://github.com/2bbb/bbb-max/)
+
 ## Required env.
 
 * Recently Mac
