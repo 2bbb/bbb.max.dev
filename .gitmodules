@@ -4,3 +4,6 @@
 [submodule "libs/max-sdk"]
 	path = libs/max-sdk
 	url = https://github.com/Cycling74/max-sdk.git
+[submodule "projects/bbb.zmq.sub"]
+	path = projects/bbb.zmq.sub
+	url = https://github.com/2bbb/bbb.zmq.sub.git
