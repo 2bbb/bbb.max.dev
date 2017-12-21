@@ -7,3 +7,6 @@
 [submodule "projects/bbb.zmq.sub"]
 	path = projects/bbb.zmq.sub
 	url = https://github.com/2bbb/bbb.zmq.sub.git
+[submodule "projects/bbb.zmq.pub"]
+	path = projects/bbb.zmq.pub
+	url = https://github.com/2bbb/bbb.zmq.pub.git
