@@ -23,20 +23,6 @@ namespace bbb {
         template <bool condition_value, typename result_type = void>
         using enable_if_t = typename std::enable_if<condition_value, result_type>::type;
         
-        template <template <typename> class method_def, typename check_type>
-        struct sfinae_method_checker {
-            template <typename, typename method_def<check_type>::type> class checker;
-            
-            template <typename checkee>
-            static std::true_type test(checker<checkee, method_def<checkee>::value> *);
-            
-            template <typename>
-            static std::false_type test(...);
-            
-            using type = decltype(test<check_type>(nullptr));
-            static constexpr bool value = decltype(test<check_type>(nullptr))::value;
-        };
-        
         template <typename type>
         using gimme_method_t = void(type::*)(long inlet, t_symbol * s, long ac, t_atom * av);
         
@@ -51,27 +37,72 @@ namespace bbb {
         using bang_method_t = void(type::*)(t_object *);
         
         template <typename check_type>
-        struct bang_method_def {
-            using type = bang_method_t<check_type>;
-            type value = &check_type::bang;
+        struct has_bang_method {
+            template <typename, bang_method_t<check_type>> class checker;
+            
+            template <typename checkee>
+            static std::true_type test(checker<checkee, &checkee::bang> *);
+            
+            template <typename>
+            static std::false_type test(...);
+            
+            using type = decltype(test<check_type>(nullptr));
+            static constexpr bool value = decltype(test<check_type>(nullptr))::value;
+        };
+
+        template <typename type, bang_method_t<type> f>
+        struct bang_method_caller {
+            inline static void call(type *obj, void *b) {
+                (obj->*f)(b);
+            }
         };
         
         template <typename type>
-        using assist_method_t = void(type::*)(void *, long, long, char *s);
+        using assist_method_t = void(type::*)(void *, long, long, char *);
         
         template <typename check_type>
-        struct assist_method_def {
-            using type = assist_method_t<check_type>;
-            type value = &check_type::assist;
+        struct has_assist_method {
+            template <typename, assist_method_t<check_type>> class checker;
+            
+            template <typename checkee>
+            static std::true_type test(checker<checkee, &checkee::assist> *);
+            
+            template <typename>
+            static std::false_type test(...);
+            
+            using type = decltype(test<check_type>(nullptr));
+            static constexpr bool value = decltype(test<check_type>(nullptr))::value;
         };
         
+        template <typename type, assist_method_t<type> f>
+        struct assist_method_caller {
+            inline static void call(type *obj, void *b, long msg, long index, char *s) {
+                (obj->*f)(b, msg, index, s);
+            }
+        };
+
         template <typename type>
         using loadbang_method_t = void (type::*)(void *);
         
         template <typename check_type>
-        struct loadbang_method_def {
-            using type = loadbang_method_t<check_type>;
-            type value = &check_type::loadbang;
+        struct has_loadbang_method {
+            template <typename, loadbang_method_t<check_type>> class checker;
+            
+            template <typename checkee>
+            static std::true_type test(checker<checkee, &checkee::loadbang> *);
+            
+            template <typename>
+            static std::false_type test(...);
+            
+            using type = decltype(test<check_type>(nullptr));
+            static constexpr bool value = decltype(test<check_type>(nullptr))::value;
+        };
+        
+        template <typename type, loadbang_method_t<type> f>
+        struct loadbang_method_caller {
+            inline static void call(type *obj, void *b) {
+                (obj->*f)(b);
+            }
         };
     };
 };
