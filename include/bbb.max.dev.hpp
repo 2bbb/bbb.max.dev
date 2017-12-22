@@ -144,12 +144,12 @@ namespace bbb {
             }
             
             inline static void registerStandardFunctions() {
-                register_standard_functions_helper<obj_class>::call_register();
+                standard_functions_registrar<obj_class>::call_register();
             }
             
-            template <general_gimme_method<obj_class> method_ptr>
+            template <gimme_method_t<obj_class> method_ptr>
             inline static void registerGimme(const std::string &method_name) {
-                using caller = general_gimme_method_caller<obj_class, method_ptr>;
+                using caller = gimme_method_caller<obj_class, method_ptr>;
                 class_addmethod((t_class *)(obj_class::m_class),
                                 (method)(caller::call),
                                 method_name.c_str(),

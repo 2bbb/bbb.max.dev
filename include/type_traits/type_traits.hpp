@@ -38,29 +38,39 @@ namespace bbb {
         };
         
         template <typename type>
-        using general_gimme_method = void(type::*)(long inlet, t_symbol * s, long ac, t_atom * av);
-        template <typename type, general_gimme_method<type> f>
-        struct general_gimme_method_caller {
+        using gimme_method_t = void(type::*)(long inlet, t_symbol * s, long ac, t_atom * av);
+        
+        template <typename type, gimme_method_t<type> f>
+        struct gimme_method_caller {
             inline static void call(type *obj, t_symbol *sym, long argc, t_atom *argv) {
                 (obj->*f)(proxy_getinlet((t_object *)obj), sym, argc, argv);
             }
         };
         
+        template <typename type>
+        using bang_method_t = void(type::*)(t_object *);
+        
         template <typename check_type>
         struct bang_method_def {
-            using type = void(check_type::*)(t_object *);
+            using type = bang_method_t<check_type>;
             type value = &check_type::bang;
         };
         
+        template <typename type>
+        using assist_method_t = void(type::*)(void *, long, long, char *s);
+        
         template <typename check_type>
         struct assist_method_def {
-            using type = void(check_type::*)(void *, long, long, char *s);
+            using type = assist_method_t<check_type>;
             type value = &check_type::assist;
         };
         
+        template <typename type>
+        using loadbang_method_t = void (type::*)(void *);
+        
         template <typename check_type>
         struct loadbang_method_def {
-            using type = void (check_type::*)(void *);
+            using type = loadbang_method_t<check_type>;
             type value = &check_type::loadbang;
         };
     };
